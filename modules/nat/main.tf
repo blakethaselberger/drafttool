@@ -32,74 +32,53 @@ resource "aws_nat_gateway" "nat-pub-sub-b" {
   depends_on = [var.igw]
 }
 
-resource "aws_route_table" "pri_sub_3a_to_nat" {
+resource "aws_route_table" "pri-rt-a" {
   vpc_id = var.vpc_id
 
   route {
-    cidr_block = var.pri_sub_3a_cidr
-    gateway_id = aws_nat_gateway.nat-pub-sub-a.id
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat-pub-sub-a.id
   }
 
   tags = {
-    Name = "Private-Subnet-3a-to-NAT"
+    Name = "Pri-rt-a"
   }
 }
 
-resource "aws_route_table" "pri_sub_5a_to_nat" {
-  vpc_id = var.vpc_id
-
-  route {
-    cidr_block = var.pri_sub_5a_cidr
-    gateway_id = aws_nat_gateway.nat-pub-sub-a.id
-  }
-
-  tags = {
-    Name = "Private-Subnet-5a-to-NAT"
-  }
-}
-
-resource "aws_route_table" "pri_sub_4b_to_nat" {
-  vpc_id = var.vpc_id
-
-  route {
-    cidr_block = var.pri_sub_4b_cidr
-    gateway_id = aws_nat_gateway.nat-pub-sub-b.id
-  }
-
-  tags = {
-    Name = "Private-Subnet-4b-to-NAT"
-  }
-}
-
-resource "aws_route_table" "pri_sub_6b_to_nat" {
-  vpc_id = var.vpc_id
-
-  route {
-    cidr_block = var.pri_sub_6b_cidr
-    gateway_id = aws_nat_gateway.nat-pub-sub-b.id
-  }
-
-  tags = {
-    Name = "Private-Subnet-6b-to-NAT"
-  }
-}
-
-resource "aws_route_table_association" "pri-sub-3a-nat-association" {
+# associate private subnet pri-sub-3-a with private route table Pri-RT-A
+resource "aws_route_table_association" "pri-sub-3a-with-Pri-rt-a" {
   subnet_id      = var.pri_sub_3a_id
-  route_table_id = aws_route_table.pri_sub_3a_to_nat.id
+  route_table_id = aws_route_table.pri-rt-a.id
 }
 
-resource "aws_route_table_association" "pri-sub-5a-nat-association" {
-  subnet_id      = var.pri_sub_5a_id
-  route_table_id = aws_route_table.pri_sub_5a_to_nat.id
-}
-
-resource "aws_route_table_association" "pri-sub-4b-nat-association" {
+# associate private subnet pri-sub-4b with private route table Pri-rt-b
+resource "aws_route_table_association" "pri-sub-4b-with-Pri-rt-b" {
   subnet_id      = var.pri_sub_4b_id
-  route_table_id = aws_route_table.pri_sub_4b_to_nat.id
+  route_table_id = aws_route_table.pri-rt-a.id
 }
 
-resource "aws_route_table_association" "pri-sub-6b-nat-association" {
+# create private route table Pri-rt-b and add route through nat-b
+resource "aws_route_table" "pri-rt-b" {
+  vpc_id = var.vpc_id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat-pub-sub-b.id
+  }
+
+  tags = {
+    Name = "pri-rt-b"
+  }
+}
+
+# associate private subnet pri-sub-5a with private route Pri-rt-b
+resource "aws_route_table_association" "pri-sub-5a-with-pri-rt-b" {
+  subnet_id      = var.pri_sub_5a_id
+  route_table_id = aws_route_table.pri-rt-b.id
+}
+
+# associate private subnet pri-sub-6b with private route table Pri-rt-b
+resource "aws_route_table_association" "pri-sub-6b-with-pri-rt-b" {
   subnet_id      = var.pri_sub_6b_id
-  route_table_id = aws_route_table.pri_sub_6b_to_nat.id
+  route_table_id = aws_route_table.pri-rt-b.id
 }
