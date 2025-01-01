@@ -44,7 +44,7 @@ module "asg" {
   instance_type    = "t2.micro"
   max_size         = 4
   min_size         = 0
-  desired_capacity = 0
+  desired_capacity = 2
   ec2_sg_id        = module.sg.ec2_asg_sg_id
   project_name     = var.project_name
   pri_sub_3a_id    = module.vpc.pri_sub_3a_id
@@ -56,14 +56,21 @@ module "sg" {
 
   vpc_id       = module.vpc.vpc_id
   project_name = var.project_name
+  my_laptop_ip = var.my_laptop_ip
 }
 
 module "rds" {
   source        = "../modules/rds"
-  db_name       = "${var.project_name}-db"
   db_sg_id      = module.sg.db_sg_id
   db_password   = var.db_password
   db_username   = var.db_username
   pri_sub_5a_id = module.vpc.pri_sub_5a_id
   pri_sub_6b_id = module.vpc.pri_sub_6b_id
+}
+
+module "secrets_manager" {
+  source = "../modules/secrets-manager"
+
+  rds_password_length = 16
+  rds_username_length = 16
 }

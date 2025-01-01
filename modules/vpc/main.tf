@@ -64,6 +64,16 @@ resource "aws_route_table_association" "b" {
   route_table_id = aws_route_table.public-rt.id
 }
 
+resource "aws_route_table_association" "temp-sub-3a-with-pub-rt" {
+  subnet_id      = aws_subnet.pri_sub_3a.id
+  route_table_id = aws_route_table.public-rt.id
+}
+
+resource "aws_route_table_association" "temp-sub-4b-with-pub-rt" {
+  subnet_id      = aws_subnet.pri_sub_4b.id
+  route_table_id = aws_route_table.public-rt.id
+}
+
 resource "aws_subnet" "pri_sub_3a" {
   vpc_id            = aws_vpc.aws_vpc.id
   cidr_block        = var.pri_sub_3a_cidr

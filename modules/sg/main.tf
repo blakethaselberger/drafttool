@@ -44,7 +44,7 @@ resource "aws_security_group" "ec2_asg_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] # Adjust this if needed to restrict traffic from ALB
   }
 
   ingress {
@@ -52,7 +52,7 @@ resource "aws_security_group" "ec2_asg_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] # Adjust this if needed to restrict traffic from ALB
   }
 
   egress {
@@ -66,16 +66,19 @@ resource "aws_security_group" "ec2_asg_sg" {
   tags = {
     Name = "EC2_ASG_SG"
   }
+
+  # Ensure this security group is managed after the ALB SG
+  depends_on = [aws_security_group.alb_sg]
 }
 
-# create security group for the Database
+# Security Group for the Database
 resource "aws_security_group" "db_sg" {
   name        = "db_sg"
-  description = "enable mysql access on port 3305 from client-sg"
+  description = "Enable MySQL access on port 3306 from EC2 ASG"
   vpc_id      = var.vpc_id
 
   ingress {
-    description     = "mysql access"
+    description     = "MySQL access"
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
@@ -85,12 +88,14 @@ resource "aws_security_group" "db_sg" {
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = -1
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
     Name = "MySQL_DB_SG"
   }
-}
 
+  # Ensure this security group is managed after the EC2 ASG SG
+  depends_on = [aws_security_group.ec2_asg_sg]
+}
