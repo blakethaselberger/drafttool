@@ -45,17 +45,17 @@ resource "aws_route_table" "pri-rt-a" {
   }
 }
 
-# associate private subnet pri-sub-3-a with private route table Pri-RT-A
-# resource "aws_route_table_association" "pri-sub-3a-with-Pri-rt-a" {
-#   subnet_id      = var.pri_sub_3a_id
-#   route_table_id = aws_route_table.pri-rt-a.id
-# }
+#associate private subnet pri-sub-3-a with private route table Pri-RT-A
+resource "aws_route_table_association" "pri-sub-3a-with-Pri-rt-a" {
+  subnet_id      = var.pri_sub_3a_id
+  route_table_id = aws_route_table.pri-rt-a.id
+}
 
-# # associate private subnet pri-sub-4b with private route table Pri-rt-b
-# resource "aws_route_table_association" "pri-sub-4b-with-Pri-rt-b" {
-#   subnet_id      = var.pri_sub_4b_id
-#   route_table_id = aws_route_table.pri-rt-a.id
-# }
+# associate private subnet pri-sub-4b with private route table Pri-rt-b
+resource "aws_route_table_association" "pri-sub-4b-with-Pri-rt-b" {
+  subnet_id      = var.pri_sub_4b_id
+  route_table_id = aws_route_table.pri-rt-a.id
+}
 
 # create private route table Pri-rt-b and add route through nat-b
 resource "aws_route_table" "pri-rt-b" {

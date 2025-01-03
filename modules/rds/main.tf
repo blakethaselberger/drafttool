@@ -25,12 +25,11 @@ resource "aws_db_instance" "db" {
 
   provisioner "local-exec" {
     command = <<EOT
-      mysql -h ${self.endpoint} -u ${self.username} -p${self.password} ${self.db_name} < initialize_db.sql
+      mysql -h ${self.endpoint} -u ${self.username} -p${self.password} ${self.db_name} < "${path.module}/initialize_db.sql"
     EOT
   }
 
-
-#   tags = {
-#     Name = "drafttooldb"
-#   }
-# }
+  tags = {
+    Name = "drafttooldb"
+  }
+}

@@ -48,7 +48,7 @@ module "asg" {
   ec2_sg_id        = module.sg.ec2_asg_sg_id
   project_name     = var.project_name
   pri_sub_3a_id    = module.vpc.pri_sub_3a_id
-  pri_sub_4b_id    = module.vpc.pri_sub_5a_id
+  pri_sub_4b_id    = module.vpc.pri_sub_4b_id
 }
 
 module "sg" {
