@@ -1,8 +1,3 @@
-# resource "aws_instance" "test-server" {
-#   ami           = "ami-07d9cf938edb0739b"
-#   instance_type = "t2.micro"
-# }
-
 module "vpc" {
   source          = "../modules/vpc"
   project_name    = var.project_name
@@ -40,15 +35,20 @@ module "alb" {
 module "asg" {
   source = "../modules/asg"
 
-  tg_arn           = module.alb.tg_arn
-  instance_type    = "t2.micro"
-  max_size         = 4
-  min_size         = 0
-  desired_capacity = 2
-  ec2_sg_id        = module.sg.ec2_asg_sg_id
-  project_name     = var.project_name
-  pri_sub_3a_id    = module.vpc.pri_sub_3a_id
-  pri_sub_4b_id    = module.vpc.pri_sub_4b_id
+  tg_arn                      = module.alb.tg_arn
+  instance_type               = "t2.micro"
+  max_size                    = 4
+  min_size                    = 0
+  desired_capacity            = 1
+  ec2_sg_id                   = module.sg.ec2_asg_sg_id
+  project_name                = var.project_name
+  pri_sub_3a_id               = module.vpc.pri_sub_3a_id
+  pri_sub_4b_id               = module.vpc.pri_sub_4b_id
+  player_info_api_bucket_name = var.player_info_api_bucket_name
+  sql_bucket_name             = var.sql_bucket_name
+  db_endpoint                 = module.rds.db_endpoint
+  db_password                 = module.secrets_manager.rds_password #var.db_password
+  db_username                 = module.secrets_manager.rds_username #var.db_username
 }
 
 module "sg" {
@@ -62,8 +62,8 @@ module "sg" {
 module "rds" {
   source        = "../modules/rds"
   db_sg_id      = module.sg.db_sg_id
-  db_password   = var.db_password
-  db_username   = var.db_username
+  db_password   = module.secrets_manager.rds_password #var.db_password
+  db_username   = module.secrets_manager.rds_username #var.db_username
   pri_sub_5a_id = module.vpc.pri_sub_5a_id
   pri_sub_6b_id = module.vpc.pri_sub_6b_id
 }
@@ -74,3 +74,11 @@ module "secrets_manager" {
   rds_password_length = 16
   rds_username_length = 16
 }
+
+module "s3" {
+  source = "../modules/s3"
+
+  player_info_api_bucket_name = var.player_info_api_bucket_name
+  sql_bucket_name             = var.sql_bucket_name
+}
+

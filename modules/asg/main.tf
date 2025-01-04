@@ -1,25 +1,15 @@
-
-# Use the aws_ami data source to get the most recent AMI
-# data "aws_ami" "latest_ami" {
-#   most_recent = true
-#   owners      = ["amazon"]
-
-#   filter {
-#     name   = "name"
-#     values = ["amzn2-ami-hvm-*-x86_64-gp2"]
-#   }
-
-#   filter {
-#     name   = "virtualization-type"
-#     values = ["hvm"]
-#   }
-# }
-
 resource "aws_launch_template" "lt_name" {
   name          = "${var.project_name}-tpl"
   image_id      = var.ami
   instance_type = var.instance_type
-  user_data     = filebase64("${path.module}/userdata.sh")
+  user_data = base64encode(templatefile("${path.module}/userdata.tpl", {
+    player_info_api_bucket_name = var.player_info_api_bucket_name
+    sql_bucket_name             = var.sql_bucket_name
+    rds_endpoint                = var.db_endpoint #aws_db_instance.db.endpoint,
+    rds_db_name                 = var.db_name,
+    rds_username                = var.db_username,
+    rds_password                = var.db_password
+  }))
 
   vpc_security_group_ids = [var.ec2_sg_id]
 

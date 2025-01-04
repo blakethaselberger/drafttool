@@ -16,3 +16,5 @@ variable "db_password" {}
 variable "certificate_domain_name" {}
 variable "additional_domain_name" {}
 variable "my_laptop_ip" {}
+variable "player_info_api_bucket_name" {}
+variable "sql_bucket_name" {}

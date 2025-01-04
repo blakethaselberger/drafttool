@@ -1,0 +1,36 @@
+NOTE File that I'm using to maintain my commands
+--------------- curl ----------------
+GET PLAYERS:
+curl -X GET http://localhost:3000/api/players
+
+GET PLAYER BY ID:
+curl -X GET http://localhost:3000/api/players/1
+
+CREATE A PLAYER:
+curl -X POST http://localhost:3000/api/players -H "Content-Type: application/json" -d '{
+  "first_name": "Blake ",
+  "last_name": "Haselberger",
+  "team": "Team A",
+  "height": 6.1,
+  "weight": 185.5
+}'
+
+UPDATE A PLAYER: 
+curl -X PUT http://localhost:3000/api/players/1 -H "Content-Type: application/json" -d '{
+  "first_name": "Blake",
+  "last_name": "Haselberger",
+  "team": "Free Agent",
+  "height": 6.2,
+  "weight": 210
+}'
+
+DELETE A PLAYER:
+curl -X DELETE http://localhost:3000/api/players/1
+
+----------------- MySQL ------------------
+
+mysql -h drafttool-db-instance.chc8agea6j5p.us-west-2.rds.amazonaws.com -u vtucdi13i5gtg114 -p
+
+SHOW DATABASES;
+USE DrafttoolDB;
+SHOW TABLES;

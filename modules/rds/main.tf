@@ -23,12 +23,6 @@ resource "aws_db_instance" "db" {
 
   db_subnet_group_name = aws_db_subnet_group.db-subnet-group.name
 
-  provisioner "local-exec" {
-    command = <<EOT
-      mysql -h ${self.endpoint} -u ${self.username} -p${self.password} ${self.db_name} < "${path.module}/initialize_db.sql"
-    EOT
-  }
-
   tags = {
     Name = "drafttooldb"
   }
