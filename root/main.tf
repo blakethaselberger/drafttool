@@ -47,8 +47,9 @@ module "asg" {
   player_info_api_bucket_name = var.player_info_api_bucket_name
   sql_bucket_name             = var.sql_bucket_name
   db_endpoint                 = module.rds.db_endpoint
-  db_password                 = module.secrets_manager.rds_password #var.db_password
-  db_username                 = module.secrets_manager.rds_username #var.db_username
+  db_password                 = module.secrets_manager.rds_password
+  db_username                 = module.secrets_manager.rds_username
+  scripts_bucket              = var.scripts_bucket
 }
 
 module "sg" {
@@ -62,8 +63,8 @@ module "sg" {
 module "rds" {
   source        = "../modules/rds"
   db_sg_id      = module.sg.db_sg_id
-  db_password   = module.secrets_manager.rds_password #var.db_password
-  db_username   = module.secrets_manager.rds_username #var.db_username
+  db_password   = module.secrets_manager.rds_password
+  db_username   = module.secrets_manager.rds_username
   pri_sub_5a_id = module.vpc.pri_sub_5a_id
   pri_sub_6b_id = module.vpc.pri_sub_6b_id
 }
@@ -80,5 +81,6 @@ module "s3" {
 
   player_info_api_bucket_name = var.player_info_api_bucket_name
   sql_bucket_name             = var.sql_bucket_name
+  scripts_bucket              = var.scripts_bucket
 }
 

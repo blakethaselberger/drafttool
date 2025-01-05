@@ -8,7 +8,8 @@ resource "aws_launch_template" "lt_name" {
     rds_endpoint                = var.db_endpoint #aws_db_instance.db.endpoint,
     rds_db_name                 = var.db_name,
     rds_username                = var.db_username,
-    rds_password                = var.db_password
+    rds_password                = var.db_password,
+    scripts_bucket              = var.scripts_bucket
   }))
 
   vpc_security_group_ids = [var.ec2_sg_id]

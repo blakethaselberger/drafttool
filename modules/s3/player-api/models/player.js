@@ -9,7 +9,7 @@ const Player = sequelize.define('Player', {
     },
     first_name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
     last_name: {
         type: DataTypes.STRING,
@@ -19,12 +19,28 @@ const Player = sequelize.define('Player', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    position: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    shoots: { 
+        type: DataTypes.ENUM('Left', 'Right'), 
+        allowNull: false,
+    },
+    nation: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    place_of_birth: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     height: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.DECIMAL(4, 1),
         allowNull: false,
     },
     weight: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.DECIMAL(4, 1),
         allowNull: false,
     },
 }, {

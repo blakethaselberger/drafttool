@@ -1,7 +1,7 @@
 variable "project_name" {}
 variable "ec2_sg_id" {}
 variable "ami" {
-  default = "ami-0d16a00c70ee279b8"
+  default = "ami-07d9cf938edb0739b"
 }
 variable "instance_type" {}
 variable "max_size" {}
@@ -21,3 +21,4 @@ variable "db_name" {
 variable "player_info_api_bucket_name" {}
 variable "sql_bucket_name" {}
 variable "db_endpoint" {}
+variable "scripts_bucket" {}
