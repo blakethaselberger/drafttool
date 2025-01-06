@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Import the Sequelize instance
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const Season = sequelize.define('Season', {
-    id: {
+const SeasonStatistic = sequelize.define('SeasonStatistic', {
+    season_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -11,16 +11,14 @@ const Season = sequelize.define('Season', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'players', // Ensure this matches the actual Players table name
-            key: 'id',        // Foreign key references the primary key in Players table
+            model: 'players',
+            key: 'player_id',
         },
+        onDelete: 'CASCADE',
     },
-    year: {
+    season_year: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-            is: /^\d{2}-\d{2}$/, // Ensures the format is 'YY-YY' (e.g., '19-20')
-        },
     },
     team: {
         type: DataTypes.STRING,
@@ -55,8 +53,8 @@ const Season = sequelize.define('Season', {
         defaultValue: 0,
     },
 }, {
+    tableName: 'season_statistics',
     timestamps: false,
-    tableName: 'seasons', // Matches the database table name
 });
 
-module.exports = Season;
+module.exports = SeasonStatistic;

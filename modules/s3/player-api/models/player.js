@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const Player = sequelize.define('Player', {
-    id: {
+    player_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -15,37 +15,33 @@ const Player = sequelize.define('Player', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    team: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     position: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('C', 'LW', 'RW', 'D', 'G'),
         allowNull: false,
     },
-    shoots: { 
-        type: DataTypes.ENUM('Left', 'Right'), 
+    age: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-    },
-    nation: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    place_of_birth: {
-        type: DataTypes.STRING,
-        allowNull: true,
     },
     height: {
         type: DataTypes.DECIMAL(4, 1),
-        allowNull: false,
     },
     weight: {
         type: DataTypes.DECIMAL(4, 1),
+    },
+    nationality: {
+        type: DataTypes.STRING,
+    },
+    amateur_team: {
+        type: DataTypes.STRING,
+    },
+    draft_eligible_year: {
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
 }, {
-    timestamps: false,
     tableName: 'players',
+    timestamps: false,
 });
 
 module.exports = Player;

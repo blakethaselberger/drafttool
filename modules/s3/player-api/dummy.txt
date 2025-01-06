@@ -29,8 +29,15 @@ curl -X DELETE http://localhost:3000/api/players/1
 
 ----------------- MySQL ------------------
 
-mysql -h drafttool-db-instance.chc8agea6j5p.us-west-2.rds.amazonaws.com -u vtucdi13i5gtg114 -p
+mysql -h $RDS_ENDPOINT -u $RDS_USERNAME -p
 
 SHOW DATABASES;
 USE DrafttoolDB;
 SHOW TABLES;
+
+Current Passwords - NOT STATIC, THEY WILL CHANGE
+
+export RDS_ENDPOINT="drafttool-db-instance.chc8agea6j5p.us-west-2.rds.amazonaws.com"
+export RDS_DB_NAME="DrafttoolDB"
+export RDS_USERNAME="yjxjldezul5w3mdq"
+export RDS_PASSWORD="&li*4zd1z}]DX5t!"

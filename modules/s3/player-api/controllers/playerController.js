@@ -1,63 +1,62 @@
 const Player = require('../models/player');
 
-exports.createPlayer = async (req, res) => {
-    try {
-        const player = await Player.create(req.body);
-        res.status(201).json(player);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
 exports.getAllPlayers = async (req, res) => {
     try {
         const players = await Player.findAll();
-        res.status(200).json(players);
+        res.json(players);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to fetch players' });
+    }
+};
+
+exports.createPlayer = async (req, res) => {
+    try {
+        const player = await Player.create(req.body);
+        res.json(player);
+    } catch (error) {
+        res.status(400).json({ error: 'Failed to create player' });
     }
 };
 
 exports.getPlayerById = async (req, res) => {
     try {
-        const player = await Player.findByPk(req.params.id);
+        const { playerId } = req.params;
+        const player = await Player.findByPk(playerId);
         if (player) {
-            res.status(200).json(player);
+            res.json(player);
         } else {
-            res.status(404).json({ message: 'Player not found' });
+            res.status(404).json({ error: 'Player not found' });
         }
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to fetch player' });
     }
 };
 
 exports.updatePlayer = async (req, res) => {
     try {
-        const [updated] = await Player.update(req.body, {
-            where: { id: req.params.id },
-        });
+        const { playerId } = req.params;
+        const [updated] = await Player.update(req.body, { where: { player_id: playerId } });
         if (updated) {
-            const updatedPlayer = await Player.findByPk(req.params.id);
-            res.status(200).json(updatedPlayer);
+            const updatedPlayer = await Player.findByPk(playerId);
+            res.json(updatedPlayer);
         } else {
-            res.status(404).json({ message: 'Player not found' });
+            res.status(404).json({ error: 'Player not found' });
         }
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json({ error: 'Failed to update player' });
     }
 };
 
 exports.deletePlayer = async (req, res) => {
     try {
-        const deleted = await Player.destroy({
-            where: { id: req.params.id },
-        });
+        const { playerId } = req.params;
+        const deleted = await Player.destroy({ where: { player_id: playerId } });
         if (deleted) {
-            res.status(204).json();
+            res.json({ message: 'Player deleted' });
         } else {
-            res.status(404).json({ message: 'Player not found' });
+            res.status(404).json({ error: 'Player not found' });
         }
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: 'Failed to delete player' });
     }
 };
