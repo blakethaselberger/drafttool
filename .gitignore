@@ -16,3 +16,9 @@ terraform.*
 *.tfstate
 /**/*.tfstate*
 *.tfstate.*
+
+#lock 
+package-lock.json
+
+# Dependency directories
+node_modules/

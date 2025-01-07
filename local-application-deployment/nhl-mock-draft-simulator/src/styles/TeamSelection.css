@@ -1,0 +1,63 @@
+.team-selection {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f7f9fc;
+}
+
+.team-selection h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Fixed 8 columns */
+    gap: 1rem;
+    max-width: 1200px;
+    /* Limit the grid width */
+    margin: 0 auto;
+    /* Center the grid */
+    padding: 1rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.team-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.abbreviation {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.name {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.city {
+    font-size: 0.9rem;
+    color: #999;
+}
+
+body {
+    background-color: #f7f9fc;
+}

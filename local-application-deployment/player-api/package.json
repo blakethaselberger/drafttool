@@ -1,0 +1,22 @@
+{
+  "name": "player-api",
+  "version": "1.0.0",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "NODE_ENV=production node app.js",
+    "start:mock": "NODE_ENV=development MOCK_MODE=true node app.js"
+  },
+  "keywords": [],
+  "author": "Blake Haselberger",
+  "license": "ISC",
+  "description": "This Node server is meant for local testing. This code is different from what will be stored on the ec2",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0",
+    "sequelize": "^6.37.5"
+  }
+}
